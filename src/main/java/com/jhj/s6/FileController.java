@@ -20,5 +20,4 @@ public class FileController {
 	public ModelAndView delete(int fnum, HttpSession session) throws Exception {
 		return fileService.delete(fnum, session);
 	}
-
 }

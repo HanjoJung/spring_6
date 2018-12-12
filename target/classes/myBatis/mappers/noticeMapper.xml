@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-  <mapper namespace="noticeMapper">
+<mapper namespace="noticeMapper">
 
   	<select id="getNum" resultType="java.lang.Integer" >
   		select notice_seq.nextval from dual
@@ -47,6 +47,10 @@
 	<resultMap type="NoticeDTO" id="noticeResult">
 		<id property="num" column="num" />
 		<result property="title" column="title" />
+		<result property="writer" column="writer" />
+		<result property="contents" column="contents" />
+		<result property="reg_date" column="reg_date" />
+		<result property="hit" column="hit" />
 		<collection resultMap="fileResult" property="files" javaType="java.util.ArrayList" ofType="FileDTO">
 		</collection>
 	</resultMap>
@@ -58,9 +62,14 @@
 	
   	<select id="select" resultMap="noticeResult" parameterType="java.lang.Integer">
   		<!-- select * from notice where num=#{num} -->
-  		select n.*, f.fnum, f.fname, f.oname from notice n
+  		<!-- select n.*, f.fnum, f.fname, f.oname from notice n
 		inner join files f
-		on n.num = f.num and f.kind = 'n' and n.num = #{num}
+		on n.num = f.num and f.kind = 'n' and n.num = #{num} -->
+		
+		select n.*, f.fnum, f.fname, f.oname from 
+		(select * from notice where num = #{num}) n
+		left join files f
+		on n.num = f.num and f.kind = 'n'
   	</select>
 
   	<delete id="delete" parameterType="java.lang.Integer" >

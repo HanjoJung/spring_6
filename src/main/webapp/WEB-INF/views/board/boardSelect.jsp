@@ -6,6 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+img {
+	width: 250px;
+	height: 250px;
+}
+</style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -30,7 +36,9 @@
 	<div>
 		<c:forEach items="${files}" var="file" varStatus="i">
 			<div id="f${i.index}">
-				<a href="../resources/${board}/${file.fname}">${file.oname}</a>
+				<a href="../resources/${board}/${file.fname}"><img
+					alt="${file.oname}" src="../resources/${board}/${file.fname}">
+				</a>
 			</div>
 		</c:forEach>
 	</div>

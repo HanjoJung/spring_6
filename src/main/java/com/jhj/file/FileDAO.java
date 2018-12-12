@@ -11,33 +11,26 @@ import org.springframework.stereotype.Repository;
 public class FileDAO {
 	@Inject
 	private SqlSession sqlSession;
-	private static final String NAMESPACE="fileMapper.";
-	
-	public int insert(FileDTO fileDTO)throws Exception{
-		return sqlSession.insert(NAMESPACE+"insert", fileDTO);
+	private static final String NAMESPACE = "fileMapper.";
+
+	public int insert(FileDTO fileDTO) throws Exception {
+		return sqlSession.insert(NAMESPACE + "insert", fileDTO);
 	}
-	
-	public int deleteAll(FileDTO fileDTO)throws Exception{
-		return sqlSession.delete(NAMESPACE+"deleteAll", fileDTO);
+
+	public int deleteAll(FileDTO fileDTO) throws Exception {
+		return sqlSession.delete(NAMESPACE + "deleteAll", fileDTO);
 	}
-	
-	public int delete(int fnum)throws Exception{
-		return sqlSession.delete(NAMESPACE+"delete", fnum);
+
+	public int delete(int fnum) throws Exception {
+		return sqlSession.delete(NAMESPACE + "delete", fnum);
 	}
-	
-	public FileDTO select(int fnum)throws Exception{
-		return sqlSession.selectOne(NAMESPACE+"select", fnum);
+
+	public FileDTO select(int fnum) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + "select", fnum);
 	}
-	
-	public List<FileDTO> list(FileDTO fileDTO)throws Exception{
-		return sqlSession.selectList(NAMESPACE+"list", fileDTO);
+
+	public List<FileDTO> list(FileDTO fileDTO) throws Exception {
+		return sqlSession.selectList(NAMESPACE + "list", fileDTO);
 	}
-	
-	
+
 }
-
-
-
-
-
-

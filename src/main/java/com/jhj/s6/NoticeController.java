@@ -35,7 +35,6 @@ public class NoticeController {
 	@RequestMapping(value="noticeSelect")
 	public ModelAndView select(int num) throws Exception {
 		ModelAndView mv = noticeService.select(num);
-		mv.addObject("board", "notice");
 		return mv;
 	}
 	
@@ -59,15 +58,16 @@ public class NoticeController {
 	
 	//update Form
 	@RequestMapping(value="noticeUpdate", method=RequestMethod.GET)
-	public String update(Model model) {
-		model.addAttribute("board", "notice");
-		return "board/boardUpdate";
+	public ModelAndView update(int num) throws Exception {
+		ModelAndView mv = noticeService.select(num);
+		mv.setViewName("board/boardUpdate");
+		return mv;
 	}  
 	
 	//update process
 	@RequestMapping(value="noticeUpdate", method=RequestMethod.POST)
-	public ModelAndView update(BoardDTO boardDTO) throws Exception{
-		ModelAndView mv = noticeService.update(boardDTO);
+	public ModelAndView update(BoardDTO boardDTO, List<MultipartFile> f1, HttpSession session) throws Exception{
+		ModelAndView mv = noticeService.update(boardDTO, f1, session);
 		return mv;
 	}
 	

@@ -22,9 +22,9 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.jhj.s6" />
-	<context:component-scan base-package="com.jhj.notice"></context:component-scan>
-	<context:component-scan base-package="com.jhj.qna"></context:component-scan>
-	<context:component-scan base-package="com.jhj.member"></context:component-scan>
-	<context:component-scan base-package="com.jhj.file"></context:component-scan>
+	<context:component-scan base-package="com.jhj.notice"/>
+	<context:component-scan base-package="com.jhj.qna"/>
+	<context:component-scan base-package="com.jhj.member"/>
+	<context:component-scan base-package="com.jhj.file"/>
 	
 </beans:beans>

@@ -1,6 +1,7 @@
 package com.jhj.notice;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,6 +54,7 @@ public class NoticeService {
 			mv.setViewName("redirect:./noticeList");
 		}
 
+		mv.addObject("board", "notice");
 		return mv;
 	}
 
@@ -96,13 +98,35 @@ public class NoticeService {
 		return mv;
 	}
 
-	public ModelAndView update(BoardDTO boardDTO) throws Exception {
+	public ModelAndView update(BoardDTO boardDTO, List<MultipartFile> f1, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		int result = noticeDAO.update(boardDTO);
-		String msg = "수정 실패";
-		if (result > 0) {
-			msg = "수정 성공";
+
+		if (result < 1) {
+			throw new Exception();
 		}
+
+		FileSaver fs = new FileSaver();
+		String realPath = session.getServletContext().getRealPath("resources/notice");
+
+		for (MultipartFile mFile : f1) {
+			if (mFile.isEmpty()) {
+				continue;
+			}
+
+			FileDTO fileDTO = new FileDTO();
+			fileDTO.setOname(mFile.getOriginalFilename());
+			fileDTO.setFname(fs.saveFile3(realPath, mFile));
+			fileDTO.setNum(boardDTO.getNum());
+			fileDTO.setKind("n");
+			result = fileDAO.insert(fileDTO);
+
+			if (result < 1) {
+				throw new Exception();
+			}
+		}
+
+		String msg = "수정 성공";
 		mv.setViewName("redirect:./noticeSelect?num=" + boardDTO.getNum());
 		mv.addObject("msg", msg);
 		return mv;
@@ -123,16 +147,18 @@ public class NoticeService {
 		List<FileDTO> ar = fileDAO.list(fileDTO);
 
 		// 3. Files table Delete
-		result = fileDAO.deleteAll(fileDTO);
-		if (result < 1) {
-			throw new Exception();
-		}
+		if (ar.size() != 0) {
+			result = fileDAO.deleteAll(fileDTO);
+			if (result < 1) {
+				throw new Exception();
+			}
 
-		// 4. HDD Delete
-		String realPath = session.getServletContext().getRealPath("resources/notice");
-		for (FileDTO fileDTO2 : ar) {
-			File file = new File(realPath, fileDTO2.getFname());
-			file.delete();
+			// 4. HDD Delete
+			String realPath = session.getServletContext().getRealPath("resources/notice");
+			for (FileDTO fileDTO2 : ar) {
+				File file = new File(realPath, fileDTO2.getFname());
+				file.delete();
+			}
 		}
 
 		mv.setViewName("redirect:./noticeList");

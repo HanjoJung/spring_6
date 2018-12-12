@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.jhj.util.Pager" alias="Pager"/>
+		<typeAlias type="com.jhj.board.BoardDTO" alias="BoardDTO"/>
+		<typeAlias type="com.jhj.notice.NoticeDTO" alias="NoticeDTO"/>
+		<typeAlias type="com.jhj.qna.QnaDTO" alias="QnaDTO"/>
+		<typeAlias type="com.jhj.member.MemberDTO" alias="MemberDTO"/>
+		<typeAlias type="com.jhj.file.FileDTO" alias="FileDTO"/>
+	</typeAliases>
+</configuration>

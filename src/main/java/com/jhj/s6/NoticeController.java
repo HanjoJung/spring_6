@@ -33,10 +33,10 @@ public class NoticeController {
 	
 	//select
 	@RequestMapping(value="noticeSelect")
-	public String select(Model model, int num, RedirectAttributes rd) throws Exception {
-		String Path = noticeService.select(num, model, rd);
-		model.addAttribute("board", "notice");
-		return "board/boardSelect";
+	public ModelAndView select(int num) throws Exception {
+		ModelAndView mv = noticeService.select(num);
+		mv.addObject("board", "notice");
+		return mv;
 	}
 	
 	//write Form

@@ -12,6 +12,7 @@
 <P>  The time on the server is ${serverTime}. </P>
 <a href="./notice/noticeList">Notice List</a>
 <a href="./qna/qnaList">Qna List</a>
+<a href="./ani/list">Animal List</a>
 
 <c:choose>
 	<c:when test="${not empty member}">

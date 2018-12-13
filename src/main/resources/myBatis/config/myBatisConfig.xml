@@ -11,5 +11,6 @@
 		<typeAlias type="com.jhj.qna.QnaDTO" alias="QnaDTO"/>
 		<typeAlias type="com.jhj.member.MemberDTO" alias="MemberDTO"/>
 		<typeAlias type="com.jhj.file.FileDTO" alias="FileDTO"/>
+		<typeAlias type="com.jhj.animal.AnimalDTO" alias="AnimalDTO"/>
 	</typeAliases>
 </configuration>

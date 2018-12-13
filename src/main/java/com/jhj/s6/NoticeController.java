@@ -37,8 +37,7 @@ public class NoticeController {
 	public ModelAndView list(Pager pager) throws Exception {
 		ModelAndView mv = noticeService.list(pager);
 		mv.addObject("board", "notice");
-		throw new NumberFormatException();
-//		return mv;
+		return mv;
 	}
 	
 	//select

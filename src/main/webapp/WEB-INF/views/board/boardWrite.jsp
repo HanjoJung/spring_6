@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	String ctx = request.getContextPath();	//콘텍스트명 얻어오기.
+	String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 %>
 <!DOCTYPE html>
 <html>
@@ -19,63 +19,38 @@ img {
 	cursor: pointer;
 }
 </style>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/SE2/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/SE2/js/HuskyEZCreator.js"
+	charset="utf-8"></script>
 <script type="text/javascript">
-var oEditors = [];
+	var oEditors = [];
 	$(function() {
-		nhn.husky.EZCreator
-				.createInIFrame({
-					oAppRef : oEditors,
-					elPlaceHolder : "contents",
-					//SmartEditor2Skin.html 파일이 존재하는 경로
-					sSkinURI : "${pageContext.request.contextPath}/resources/SE2/SmartEditor2Skin.html",
-					htParams : {
-						// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-						bUseToolbar : true,
-						// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-						bUseVerticalResizer : true,
-						// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-						bUseModeChanger : true,
-						fOnBeforeUnload : function() {
+		nhn.husky.EZCreator.createInIFrame({
+			oAppRef : oEditors,
+			elPlaceHolder : "contents",
+			// SmartEditor2Skin.html 파일이 존재하는 경로
+			sSkinURI : "/s6/resources/SE2/SmartEditor2Skin.html",
+			htParams : {
+				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+				bUseToolbar : true,
+				// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+				bUseVerticalResizer : true,
+				// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+				bUseModeChanger : true,
+				fOnBeforeUnload : function() {
 
-						}
-					}/* ,
-					fOnAppLoad : function() {
-						//기존 저장된 내용의 text 내용을 에디터상에 뿌려주고자 할때 사용
-						oEditors.getById["contents"].exec("PASTE_HTML", [ "" ]);
-					},
-					fCreator : "createSEditor2" */
-				});
+				}
+			}
+		});
 
-		//저장버튼 클릭시 form 전송
+		// 저장버튼 클릭시 form 전송
 		$("#save").click(function() {
 			oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
 			$("#frm").submit();
 		});
 	});
-</script>
-<script type="text/javascript">
-	$(function() {
-		var file = '<div><input type="file" name="f1"><span class="files">X</span></div>';
-		var count = 0;
-		$("#fileAdd").click(function() {
-			if (count < 5) {
-				$("#files").append(file);
-				count++;
-			} else {
-				alert("파일은 5개까지만 등록가능합니다");
-			}
-		})
-		
-		$("#files").on("click", ".files", function() {
-			$(this).parent().remove();
-			count--;
-		})
-
-	})
 </script>
 </head>
 <body>
@@ -86,11 +61,10 @@ var oEditors = [];
 		<input type="text" name="title"> <input type="text"
 			name="writer">
 		<textarea id="contents" name="contents" rows="20" cols="100"></textarea>
-		<div id="files"></div>
-		<input id="fileAdd" type="button" value="ADD">
+		<div id="addFile"></div>
+		<input id="btn" type="button" value="ADD">
 		<button id="save">Write</button>
 	</form>
-
-
 </body>
+<script type="text/javascript" src="../resources/js/fileAdd.js"></script>
 </html>

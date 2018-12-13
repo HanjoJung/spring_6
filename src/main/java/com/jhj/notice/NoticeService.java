@@ -116,10 +116,6 @@ public class NoticeService implements BoardService{
 			fileDTO.setNum(boardDTO.getNum());
 			fileDTO.setKind("n");
 			result = fileDAO.insert(fileDTO);
-
-			if (result < 1) {
-				throw new Exception();
-			}
 		}
 
 		mv.setViewName("redirect:./noticeSelect?num=" + boardDTO.getNum());
@@ -145,9 +141,6 @@ public class NoticeService implements BoardService{
 		// 3. Files table Delete
 		if (ar.size() != 0) {
 			result = fileDAO.deleteAll(fileDTO);
-			if (result < 1) {
-				throw new Exception();
-			}
 
 			// 4. HDD Delete
 			String realPath = session.getServletContext().getRealPath("resources/notice");

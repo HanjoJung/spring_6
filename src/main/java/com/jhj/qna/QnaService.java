@@ -1,5 +1,6 @@
 package com.jhj.qna;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -132,10 +133,32 @@ public class QnaService implements BoardService {
 	@Override
 	public ModelAndView delete(int num, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		// 1. notice Delete
 		int result = qnaDAO.delete(num);
 		if (result < 1) {
-			mv.addObject("msg", "Delete Fail");
+			throw new Exception();
 		}
+
+		// 2. HDD Delete 준비
+		FileDTO fileDTO = new FileDTO();
+		fileDTO.setNum(num);
+		fileDTO.setKind("q");
+		List<FileDTO> ar = fileDAO.list(fileDTO);
+
+		// 3. Files table Delete
+		if (ar.size() != 0) {
+			result = fileDAO.deleteAll(fileDTO);
+
+			// 4. HDD Delete
+			String realPath = session.getServletContext().getRealPath("resources/notice");
+			for (FileDTO fileDTO2 : ar) {
+				File file = new File(realPath, fileDTO2.getFname());
+				file.delete();
+			}
+		}
+
+		mv.setViewName("redirect:./qnaList");
+		mv.addObject("msg", "삭제 성공");
 		return mv;
 	}
 

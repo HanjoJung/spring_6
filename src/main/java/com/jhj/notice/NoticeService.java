@@ -42,12 +42,7 @@ public class NoticeService {
 		BoardDTO boardDTO = noticeDAO.select(num);
 
 		if (boardDTO != null) {
-			FileDTO fileDTO = new FileDTO();
-			fileDTO.setNum(num);
-			fileDTO.setKind("n");
-			List<FileDTO> ar = fileDAO.list(fileDTO);
 			mv.addObject("dto", boardDTO);
-			mv.addObject("files", ar);
 			mv.setViewName("board/boardSelect");
 		} else {
 			mv.addObject("msg", "해당 글은 없습니다.");

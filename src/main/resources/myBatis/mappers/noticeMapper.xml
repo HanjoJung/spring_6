@@ -56,8 +56,10 @@
 	</resultMap>
 	<resultMap type="FileDTO" id="fileResult">
 			<id property="fnum" column="fnum"/>
+			<result property="num" column="num"/>
 			<result property="fname" column="fname"/>
 			<result property="oname" column="oname"/>
+			<result property="kind" column="kind"/>
 	</resultMap>
 	
   	<select id="select" resultMap="noticeResult" parameterType="java.lang.Integer">
@@ -65,11 +67,9 @@
   		<!-- select n.*, f.fnum, f.fname, f.oname from notice n
 		inner join files f
 		on n.num = f.num and f.kind = 'n' and n.num = #{num} -->
-		
-		select n.*, f.fnum, f.fname, f.oname from 
-		(select * from notice where num = #{num}) n
+		select n.*, f.fnum, f.fname, f.oname , f.kind from notice n
 		left join files f
-		on n.num = f.num and f.kind = 'n'
+		on n.num = f.num and f.kind = 'n' where n.num = #{num}
   	</select>
 
   	<delete id="delete" parameterType="java.lang.Integer" >
@@ -81,13 +81,14 @@
   	</insert>
 
   	<update id="update" parameterType="NoticeDTO">
-  		update notice
+  		<!-- update notice
   		<set>
   		<if test="title != ''">title = #{title},</if>
   		<if test="writer != ''">writer = #{writer},</if>
   		<if test="contents != ''">contents = #{contents}</if>
   		</set>
-  		 where num=#{num}
+  		 where num=#{num} -->
+  		update notice set title = #{title}, contents = #{contents} where num=#{num}
   	</update>
 
   </mapper>

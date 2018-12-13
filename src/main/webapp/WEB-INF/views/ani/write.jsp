@@ -8,17 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-img {
-	width: 250px;
-	height: 250px;
-}
-
-.files, .del {
-	color: red;
-	cursor: pointer;
-}
-</style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript"
@@ -40,7 +29,6 @@ img {
 				// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
 				bUseModeChanger : true,
 				fOnBeforeUnload : function() {
-
 				}
 			}
 		});
@@ -54,16 +42,25 @@ img {
 </script>
 </head>
 <body>
-	<h1>${board}Write</h1>
+	<h1>Animal Write</h1>
 
-	<form action="./${board}Write" method="post" id="frm"
-		enctype="multipart/form-data">
-		<input type="text" name="title"> <input type="text"
-			name="writer">
-		<textarea id="contents" name="contents" rows="20" cols="100"></textarea>
-		<div id="addFile"></div>
-		<input id="btn" type="button" value="ADD">
-		<button id="save">Write</button>
+	<form action="./write" method="post" id="frm" enctype="multipart/form-data">
+		<p>제목 : <input type="text" name="title"></p> 
+		<p>종 : 
+			강아지<input type="radio" name="kind" value="d">
+			고양이<input type="radio" name="kind" value="c">
+		</p>
+		<p>이름 : <input type="text" name="name"></p> 
+		<p>나이 : <input type="text" name="age"></p> 
+		<p>성별 : 
+			여자<input type="radio" name="gender" value="f">
+			남자<input type="radio" name="gender" value="d">
+		</p> 
+		<p>발견날짜 : <input type="date" name="getDate"></p> 
+		<p>발견장소 : <input type="text" name="location"></p> 
+		<p><textarea id="contents" name="contents" rows="20" cols="100"></textarea></p>
+		<p>메인이미지 : <input type="file" name="f1"></p>
+		<button type="button" id="save">Write</button>
 	</form>
 </body>
 <script type="text/javascript" src="../resources/js/fileAdd.js"></script>

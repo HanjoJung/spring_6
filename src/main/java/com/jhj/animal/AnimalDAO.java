@@ -17,11 +17,11 @@ public class AnimalDAO {
 	public List<AnimalDTO> list() throws Exception {
 		return session.selectList(NAMESPACE+"list");
 	}
-	public AnimalDTO select() throws Exception {
-		return null;
+	public AnimalDTO select(int num) throws Exception {
+		return session.selectOne(NAMESPACE+"select", num);
 	}
-	public int write() throws Exception {
-		return 0;
+	public int insert(AnimalDTO animalDTO) throws Exception {
+		return session.insert(NAMESPACE+"insert", animalDTO);
 	}
 	public int update() throws Exception {
 		return 0;

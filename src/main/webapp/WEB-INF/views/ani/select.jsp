@@ -28,26 +28,20 @@ img {
 </script>
 </head>
 <body>
-	<h1>${board}Select</h1>
+	<h1>Animal Select</h1>
 
 	<h3>TITLE : ${dto.title}</h3>
 	<h3>WRITER : ${dto.writer}</h3>
 	<h3>CONTENTS : ${dto.contents}</h3>
 	<div>
-		<c:forEach items="${dto.files}" var="file" varStatus="i">
-			<c:if test="${file.fnum ne 0}">
-				<div id="f${i.index}">
-					<a href="../resources/${board}/${file.fname}"><img
-						alt="${file.oname}" src="../resources/${board}/${file.fname}">
-					</a>
-				</div>
-			</c:if>
-		</c:forEach>
+		<a href="../resources/ani/${dto.fname}"><img
+			alt="${dto.oname}" src="../resources/ani/${dto.fname}">
+		</a>
 	</div>
 
 
-	<a href="./${board}List">List</a>
-	<a href="./${board}Update?num=${dto.num}">update</a>
+	<a href="./list">List</a>
+	<a href="./update?num=${dto.num}">update</a>
 	<span id="del">delete</span>
 	<form id="frm" action="./${board}Delete" method="post">
 		<input type="hidden" name="num" value="${dto.num}">

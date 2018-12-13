@@ -24,13 +24,14 @@ public class NoticeController {
 	@Inject
 	private NoticeService noticeService;
 	
+	/*
 	@ExceptionHandler(NullPointerException.class)
 	public ModelAndView ex1() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("error/error");
 		mv.addObject("msg", "Nullpoint 발생");
 		return mv;
-	}
+	}*/
 	
 	//list
 	@RequestMapping(value="noticeList")

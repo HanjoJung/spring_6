@@ -7,22 +7,17 @@
   	<select id="list" resultType="AnimalDTO">
   		select * from animal
   	</select>
-<!-- 
-  	insert
+  	
+  	<select id="select" parameterType="java.lang.Integer" resultType="AnimalDTO">
+  		select * from animal where num = #{num}
+  	</select> 
+
   	<insert id="insert" parameterType="AnimalDTO">
-  		insert into animal values(ani_seq.nextval, #{num}, #{id}, #{kind}, #{getDate}, 
+  		insert into animal values(ani_seq.nextval, #{id}, #{kind}, #{getDate}, 
   		#{location}, #{name}, #{age}, #{gender}, #{title}, #{contents}, #{fname}, #{oname})
   	</insert>
   	
-  	delete 
   	<delete id="delete" parameterType="java.lang.Integer">
-  		delete animal where num=#{num} 
+  		delete animal where num = #{num} 
   	</delete>
-  	
-  	select
-  	<select id="select" parameterType="java.lang.Integer" resultType="AnimalDTO">
-  		select * from animal where num=#{num}
-  	</select>
- -->  	
-  	<!-- list -->
   </mapper>

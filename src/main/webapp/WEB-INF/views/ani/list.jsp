@@ -6,6 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+img {
+	width: 50px;
+	height: 50px;
+}
+</style>
 <script type="text/javascript">
 	var msg = '${param.msg}';
 	if (msg != '') {
@@ -18,15 +24,16 @@
 
 	<table>
 		<tr>
-			<td>IMG</td>
-			<td>TITLE</td>
-			<td>GENDER</td>
-			<td>LOCATION</td>
-			<td>DATE</td>
+			<td>메인이미지</td>
+			<td>제목</td>
+			<td>성별</td>
+			<td>발견한 장소</td>
+			<td>발견한 날짜</td>
 		</tr>
 		<c:forEach items="${list}" var="dto">
 			<tr>
-				<td>${dto.fname}</td>
+				<td><a href="../"><img alt="${dto.oname}"
+						src="../resources/animal/${dto.fname}"></a></td>
 				<td>${dto.title}</td>
 				<td>${dto.gender}</td>
 				<td>${dto.location}</td>

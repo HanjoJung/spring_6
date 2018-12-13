@@ -1,31 +1,30 @@
 package com.jhj.notice;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jhj.board.BoardDTO;
+import com.jhj.board.BoardService;
 import com.jhj.file.FileDAO;
 import com.jhj.file.FileDTO;
 import com.jhj.util.FileSaver;
 import com.jhj.util.Pager;
 
 @Service
-public class NoticeService {
+public class NoticeService implements BoardService{
 	@Inject
 	private NoticeDAO noticeDAO;
 	@Inject
 	private FileDAO fileDAO;
 
+	@Override
 	public ModelAndView list(Pager pager) throws Exception {
 		pager.makeRow();
 		int totalCount = noticeDAO.totalCount(pager);
@@ -37,10 +36,10 @@ public class NoticeService {
 		return mv;
 	}
 
+	@Override
 	public ModelAndView select(int num) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		BoardDTO boardDTO = noticeDAO.select(num);
-
 		if (boardDTO != null) {
 			mv.addObject("dto", boardDTO);
 			mv.setViewName("board/boardSelect");
@@ -53,6 +52,7 @@ public class NoticeService {
 		return mv;
 	}
 
+	@Override
 	public ModelAndView insert(BoardDTO boardDTO, List<MultipartFile> f1, HttpSession session) throws Exception {
 		// 1. sequence num 가져오기
 		int num = noticeDAO.getNum();
@@ -93,6 +93,7 @@ public class NoticeService {
 		return mv;
 	}
 
+	@Override
 	public ModelAndView update(BoardDTO boardDTO, List<MultipartFile> f1, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		int result = noticeDAO.update(boardDTO);
@@ -121,12 +122,12 @@ public class NoticeService {
 			}
 		}
 
-		String msg = "수정 성공";
 		mv.setViewName("redirect:./noticeSelect?num=" + boardDTO.getNum());
-		mv.addObject("msg", msg);
+		mv.addObject("msg", "수정 성공");
 		return mv;
 	}
 
+	@Override
 	public ModelAndView delete(int num, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		// 1. notice Delete

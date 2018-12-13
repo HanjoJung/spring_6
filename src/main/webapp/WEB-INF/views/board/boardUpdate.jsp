@@ -89,30 +89,35 @@ var oEditors = [];
 				}
 			})
 		});
+		$("#test").click(function() {
+			console.log($(".contents").text());
+			console.log($(".contents").val());
+			console.log($(".contents").attr("class"));
+		})
 	})
 </script>
 </head>
 <body>
 	<h1>${board}Update</h1>
 
-	<form action="./${board}Update" method="post" enctype="multipart/form-data">
+	<form id="frm" action="./${board}Update" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="num" value="${dto.num}"> <input
 			type="text" name="title" value="${dto.title}"> <input
 			type="text" name="writer" value="${dto.writer}">
 		<textarea id="contents" name="contents" rows="20" cols="100">${dto.contents}</textarea>
 		<div id="addFile"></div>
 		<div>
-			<c:forEach items="${files}" var="file" varStatus="i">
-				<div id="f${i.index}">
-					<span> <img alt="${file.oname}"
-						src="../resources/${board}/${file.fname}"> ${file.oname}
-					</span>
-					<span title="f${i.index}" class="files" id="${file.fnum}">X</span>
-				</div>
+			<c:forEach items="${dto.files}" var="file" varStatus="i">
+				<c:if test="${file.fnum ne 0}">
+					<div id="f${i.index}">
+						<span> ${file.oname} </span> <span title="f${i.index}"
+							class="files" id="${file.fnum}">X</span>
+					</div>
+				</c:if>
 			</c:forEach>
 		</div>
 		<button type="button" id="btn">Add</button>
-		<button>Update</button>
+		<button type="button" id="save">Update</button>
 	</form>
 
 </body>

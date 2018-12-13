@@ -48,7 +48,7 @@
 	<form id="frm" action="./join" method="post">
 		<p>ID : <input type="text" name="id" id="id"> </p>
 		<p id="result"></p>
-		<p>PW : <input type="password" name="pw"> </p>
+		<p>PW : <input type="password" name="password"> </p>
 		<p>NAME : <input type="text" name="name"> </p>
 		<p>Email : <input type="email" name="email"> </p>
 		<p>phone : <input type="text" name="phone"> </p>

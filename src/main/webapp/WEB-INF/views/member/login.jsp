@@ -11,7 +11,7 @@
 	
 	<form action="./login" method="post">
 		<p>ID : <input type="text" name="id"> </p>
-		<p>PW : <input type="password" name="pw"> </p>
+		<p>PW : <input type="password" name="password"> </p>
 		<button>Login</button>
 	</form>
 

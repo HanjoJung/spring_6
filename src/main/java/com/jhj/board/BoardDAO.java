@@ -5,6 +5,8 @@ import java.util.List;
 import com.jhj.util.Pager;
 
 public interface BoardDAO {
+	//count
+	public int getNum() throws Exception;
 	//List
 	public List<BoardDTO> list(Pager pager) throws Exception;
 	//select

@@ -44,7 +44,7 @@
 	<c:if test="${pager.curBlock<pager.totalBlock}">
 		<a href="./${board}List?curPage=${pager.lastNum+1}">[다음]</a>
 	</c:if>
-	<a href="./${board}List">List</a>
+	<a href="../">HOME</a>
 	<a href="./${board}Write">Write</a>
 </body>
 </html>

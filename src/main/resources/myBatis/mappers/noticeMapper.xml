@@ -81,14 +81,14 @@
   	</insert>
 
   	<update id="update" parameterType="NoticeDTO">
-  		<!-- update notice
+  		update notice
   		<set>
   		<if test="title != ''">title = #{title},</if>
   		<if test="writer != ''">writer = #{writer},</if>
   		<if test="contents != ''">contents = #{contents}</if>
   		</set>
-  		 where num=#{num} -->
-  		update notice set title = #{title}, contents = #{contents} where num=#{num}
+  		 where num=#{num}
+  		<!-- update notice set title = #{title}, contents = #{contents} where num=#{num} -->
   	</update>
 
   </mapper>

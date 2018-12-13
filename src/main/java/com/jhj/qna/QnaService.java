@@ -2,11 +2,19 @@ package com.jhj.qna;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.jhj.board.BoardDTO;
 import com.jhj.board.BoardService;
+import com.jhj.file.FileDAO;
+import com.jhj.file.FileDTO;
+import com.jhj.util.FileSaver;
 import com.jhj.util.Pager;
 
 @Service
@@ -14,64 +22,170 @@ public class QnaService implements BoardService {
 
 	@Autowired
 	private QnaDAO qnaDAO;
-	
+	@Inject
+	private FileDAO fileDAO;
+
 	@Override
-	public List<BoardDTO> list(Pager pager) throws Exception {
-		int totalCount=qnaDAO.totalCount(pager);
-		//row
+	public ModelAndView list(Pager pager) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		int totalCount = qnaDAO.totalCount(pager);
+		// row
 		pager.makeRow();
-		//pageing
+		// pageing
 		pager.makePage(totalCount);
-		
-		return qnaDAO.list(pager);
+
+		mv.addObject("list", qnaDAO.list(pager));
+		mv.addObject("pager", pager);
+		mv.setViewName("board/boardList");
+		return mv;
 	}
 
 	@Override
-	public BoardDTO select(int num) throws Exception {
-		// TODO Auto-generated method stub
-		return qnaDAO.select(num);
+	public ModelAndView select(int num) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		BoardDTO boardDTO = qnaDAO.select(num);
+		if (boardDTO != null) {
+			mv.setViewName("board/boardSelect");
+			mv.addObject("dto", boardDTO);
+		} else {
+			mv.setViewName("redirect:./qnaList");
+			mv.addObject("msg", "해당 글이 존재하지않습니다.");
+		}
+		return mv;
 	}
 
 	@Override
-	public int insert(BoardDTO boardDTO) throws Exception {
-		// TODO Auto-generated method stub
-		return qnaDAO.insert(boardDTO);
+	public ModelAndView insert(BoardDTO boardDTO, List<MultipartFile> f1, HttpSession session) throws Exception {
+		// 1. sequence num 가져오기
+		int num = qnaDAO.getNum();
+
+		// 2. qna Table에 insert
+		boardDTO.setNum(num);
+		int result = qnaDAO.insert(boardDTO);
+
+		// transaction 처리
+		if (result < 1) {
+			throw new Exception();
+		}
+
+		// 3. HDD에 File Save
+		FileSaver fs = new FileSaver();
+		String realPath = session.getServletContext().getRealPath("resources/qna");
+
+		for (MultipartFile mFile : f1) {
+			if (mFile.isEmpty()) {
+				continue;
+			}
+			// 4. Files table insert
+			FileDTO fileDTO = new FileDTO();
+			fileDTO.setOname(mFile.getOriginalFilename());
+			fileDTO.setFname(fs.saveFile3(realPath, mFile));
+			fileDTO.setKind("q");
+			fileDTO.setNum(num);
+
+			result = fileDAO.insert(fileDTO);
+
+			if (result < 1) {
+				throw new Exception();
+			}
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", "작성 성공");
+		mv.setViewName("redirect:./qnaList");
+		return mv;
 	}
 
 	@Override
-	public int update(BoardDTO boardDTO) throws Exception {
-		
-		return qnaDAO.update(boardDTO);
+	public ModelAndView update(BoardDTO boardDTO, List<MultipartFile> f1, HttpSession session) throws Exception {
+		int result = qnaDAO.update(boardDTO);
+
+		if (result < 1) {
+			throw new Exception();
+		}
+
+		FileSaver fs = new FileSaver();
+		String realPath = session.getServletContext().getRealPath("resources/qna");
+
+		for (MultipartFile mFile : f1) {
+			if (mFile.isEmpty()) {
+				continue;
+			}
+
+			FileDTO fileDTO = new FileDTO();
+			fileDTO.setOname(mFile.getOriginalFilename());
+			fileDTO.setFname(fs.saveFile3(realPath, mFile));
+			fileDTO.setNum(boardDTO.getNum());
+			fileDTO.setKind("q");
+			result = fileDAO.insert(fileDTO);
+
+			if (result < 1) {
+				throw new Exception();
+			}
+		}
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:./qnaSelect?num=" + boardDTO.getNum());
+		mv.addObject("msg", "수정 성공");
+		return mv;
 	}
 
 	@Override
-	public int delete(int num) throws Exception {
-		
-		return qnaDAO.delete(num);
+	public ModelAndView delete(int num, HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		int result = qnaDAO.delete(num);
+		if (result < 1) {
+			mv.addObject("msg", "Delete Fail");
+		}
+		return mv;
 	}
-	
-	public int reply (QnaDTO qnaDTO) throws Exception{
-		//부모의 ref, step, depth
-		BoardDTO pDto = qnaDAO.select(qnaDTO.getNum());
-		QnaDTO pQnaDTO = (QnaDTO)pDto;
-		
+
+	public ModelAndView reply(QnaDTO qnaDTO, List<MultipartFile> f1, HttpSession session) throws Exception {
+		// 부모의 ref, step, depth
+		QnaDTO pQnaDTO = (QnaDTO) qnaDAO.select(qnaDTO.getNum());
+
 		qnaDAO.replyUpdate(pQnaDTO);
-		
+
 		qnaDTO.setRef(pQnaDTO.getRef());
-		qnaDTO.setStep(pQnaDTO.getStep()+1);
-		qnaDTO.setDepth(pQnaDTO.getDepth()+1);
-		
-		
-		return qnaDAO.reply(qnaDTO);
+		qnaDTO.setStep(pQnaDTO.getStep() + 1);
+		qnaDTO.setDepth(pQnaDTO.getDepth() + 1);
+
+		// 1. sequence num 가져오기
+		int num = qnaDAO.getNum();
+
+		// 2. qna Table에 insert
+		qnaDTO.setNum(num);
+		int result = qnaDAO.reply(qnaDTO);
+
+		// transaction 처리
+		if (result < 1) {
+			throw new Exception();
+		}
+
+		// 3. HDD에 File Save
+		FileSaver fs = new FileSaver();
+		String realPath = session.getServletContext().getRealPath("resources/qna");
+
+		for (MultipartFile mFile : f1) {
+			if (mFile.isEmpty()) {
+				continue;
+			}
+			// 4. Files table insert
+			FileDTO fileDTO = new FileDTO();
+			fileDTO.setOname(mFile.getOriginalFilename());
+			fileDTO.setFname(fs.saveFile3(realPath, mFile));
+			fileDTO.setKind("q");
+			fileDTO.setNum(num);
+
+			result = fileDAO.insert(fileDTO);
+
+			if (result < 1) {
+				throw new Exception();
+			}
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", "작성 성공");
+		mv.setViewName("redirect:./qnaList");
+
+		return mv;
 	}
 }
-
-
-
-
-
-
-
-
-
-

@@ -35,11 +35,13 @@ img {
 	<h3>CONTENTS : ${dto.contents}</h3>
 	<div>
 		<c:forEach items="${dto.files}" var="file" varStatus="i">
-			<div id="f${i.index}">
-				<a href="../resources/${board}/${file.fname}"><img
-					alt="${file.oname}" src="../resources/${board}/${file.fname}">
-				</a>
-			</div>
+			<c:if test="${file.fnum ne 0}">
+				<div id="f${i.index}">
+					<a href="../resources/${board}/${file.fname}"><img
+						alt="${file.oname}" src="../resources/${board}/${file.fname}">
+					</a>
+				</div>
+			</c:if>
 		</c:forEach>
 	</div>
 

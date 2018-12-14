@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 //target
 @Component
 public class Transport {
-	//join points
 
 	//point cut
 	public void bus() {

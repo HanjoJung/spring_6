@@ -1,7 +1,5 @@
 package com.jhj.s6;
 
-import static org.junit.Assert.*;
-
 import javax.inject.Inject;
 
 import org.junit.Test;

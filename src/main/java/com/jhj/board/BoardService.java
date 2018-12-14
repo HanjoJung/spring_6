@@ -4,23 +4,28 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jhj.util.Pager;
 
+@Transactional
 public interface BoardService {
-	
-	//list
+
+	// list
 	public ModelAndView list(Pager pager) throws Exception;
-	
-	//select
+
+	// select
 	public ModelAndView select(int num) throws Exception;
-	//insert
+
+	// insert
 	public ModelAndView insert(BoardDTO boardDTO, List<MultipartFile> f1, HttpSession session) throws Exception;
-	//update
+
+	// update
 	public ModelAndView update(BoardDTO boardDTO, List<MultipartFile> f1, HttpSession session) throws Exception;
-	//delete
+
+	// delete
 	public ModelAndView delete(int num, HttpSession session) throws Exception;
 
 }

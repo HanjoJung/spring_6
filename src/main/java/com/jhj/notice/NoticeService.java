@@ -1,6 +1,7 @@
 package com.jhj.notice;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -63,7 +64,7 @@ public class NoticeService implements BoardService{
 
 		// transaction 처리
 		if (result < 1) {
-			throw new Exception();
+			throw new SQLException();
 		}
 
 		// 3. HDD에 File Save
@@ -84,7 +85,7 @@ public class NoticeService implements BoardService{
 			result = fileDAO.insert(fileDTO);
 
 			if (result < 1) {
-				throw new Exception();
+				throw new SQLException();
 			}
 		}
 		ModelAndView mv = new ModelAndView();
@@ -99,7 +100,7 @@ public class NoticeService implements BoardService{
 		int result = noticeDAO.update(boardDTO);
 
 		if (result < 1) {
-			throw new Exception();
+			throw new SQLException();
 		}
 
 		FileSaver fs = new FileSaver();
@@ -129,7 +130,7 @@ public class NoticeService implements BoardService{
 		// 1. notice Delete
 		int result = noticeDAO.delete(num);
 		if (result < 1) {
-			throw new Exception();
+			throw new SQLException();
 		}
 
 		// 2. HDD Delete 준비

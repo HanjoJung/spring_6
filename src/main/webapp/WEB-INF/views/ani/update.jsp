@@ -26,8 +26,6 @@ img {
 	var oEditors = [];
 	$(function() {
 
-		setCount(${dto.files.size()+0});
-		
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef : oEditors,
 			elPlaceHolder : "contents",
@@ -51,32 +49,46 @@ img {
 			oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
 			$("#frm").submit();
 		});
+
+		$.each($(".kind"), function() {
+			if($(this).val() == '${dto.kind}'){
+				$(this).attr("checked", "checked")
+			};
+		})
+		
+		$.each($(".gender"), function() {
+			if($(this).val() == '${dto.gender}'){
+				$(this).attr("checked", "checked")
+			};
+		})
 	});
 </script>
 </head>
 <body>
-	<h1>${board}Update</h1>
+	<h1>Animal Update</h1>
 
-	<form id="frm" action="./${board}Update" method="post"
+	<form id="frm" action="./update" method="post"
 		enctype="multipart/form-data">
-		<input type="hidden" name="num" value="${dto.num}"> <input
-			type="text" name="title" value="${dto.title}"> <input
-			type="text" name="writer" value="${dto.writer}">
-		<textarea id="contents" name="contents" rows="20" cols="100">${dto.contents}</textarea>
-		<div id="addFile"></div>
-		<div>
-			<c:forEach items="${dto.files}" var="file" varStatus="i">
-				<c:if test="${file.fnum ne 0}">
-					<div id="f${i.index}">
-						<span> ${file.oname} </span> <span title="f${i.index}"
-							class="files" id="${file.fnum}">X</span>
-					</div>
-				</c:if>
-			</c:forEach>
-		</div>
-		<input id="btn" type="button" value="ADD">
+		<input type="hidden" name="num" value="${dto.num}"> 
+		<p>제목 : <input type="text" name="title" value="${dto.title}"></p> 
+		<p>종 : 
+			강아지<input type="radio" name="kind" value="d" class="kind">
+			고양이<input type="radio" name="kind" value="c" class="kind">
+		</p>
+		<p>이름 : <input type="text" name="name" value="${dto.name}"></p> 
+		<p>나이 : <input type="text" name="age" value="${dto.age}"></p> 
+		<p>성별 : 
+			여자<input type="radio" name="gender" value="f" class="gender">
+			남자<input type="radio" name="gender" value="d" class="gender">
+		</p> 
+		<p>발견날짜 : <input type="date" name="getDate" value="${dto.getDate}"></p> 
+		<p>발견장소 : <input type="text" name="location" value="${dto.location}"></p> 
+		<p><textarea id="contents" name="contents" rows="20" cols="100">${dto.contents}</textarea></p>
+		<p>메인이미지 : <input type="file" name="f1"></p>
+<%-- 		<div>
+			<img alt="${dto.oname}" src="../resources/ani/${dto.fname}">
+		</div> --%>
 		<button type="button" id="save">Update</button>
 	</form>
-	<script type="text/javascript" src="../resources/js/fileAdd.js"></script>
 </body>
 </html>

@@ -5,8 +5,15 @@
   
   <mapper namespace="animalMapper">
   	<select id="list" resultType="AnimalDTO">
-  		select * from animal
+  		select * from
+  		(select rownum r, a.* from
+  		(select * from animal order by num desc) a)
+  		where r between #{startRow} and #{lastRow}
   	</select>
+  	
+  	<select id="totalCount" resultType="java.lang.Integer">
+  		select count(num) from animal
+  	</select> 
   	
   	<select id="select" parameterType="java.lang.Integer" resultType="AnimalDTO">
   		select * from animal where num = #{num}
@@ -16,6 +23,23 @@
   		insert into animal values(ani_seq.nextval, #{id}, #{kind}, #{getDate}, 
   		#{location}, #{name}, #{age}, #{gender}, #{title}, #{contents}, #{fname}, #{oname})
   	</insert>
+  	
+  	<update id="update" parameterType="AnimalDTO">
+  		update animal 
+  		<set>
+  		<if test="kind != ''"> kind = #{kind},</if>
+  		<if test="getDate != null"> getDate = #{getDate},</if>
+  		<if test="location != ''"> location = #{location},</if>
+  		<if test="name != ''"> name = #{name},</if>
+  		<if test="age != ''"> age = #{age},</if>
+  		<if test="gender != ''"> gender = #{gender},</if>
+  		<if test="title != ''"> title = #{title},</if>
+  		<if test="contents != ''"> contents = #{contents},</if> 
+  		<if test="fname != null"> fname = #{fname},</if>
+  		<if test="oname != null"> oname = #{oname}</if>
+  		</set>
+  		where num = #{num}
+  	</update>
   	
   	<delete id="delete" parameterType="java.lang.Integer">
   		delete animal where num = #{num} 

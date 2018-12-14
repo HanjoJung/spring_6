@@ -47,13 +47,13 @@
 	<form action="./write" method="post" id="frm" enctype="multipart/form-data">
 		<p>제목 : <input type="text" name="title"></p> 
 		<p>종 : 
-			강아지<input type="radio" name="kind" value="d">
+			강아지<input type="radio" name="kind" value="d" checked="checked">
 			고양이<input type="radio" name="kind" value="c">
 		</p>
 		<p>이름 : <input type="text" name="name"></p> 
 		<p>나이 : <input type="text" name="age"></p> 
 		<p>성별 : 
-			여자<input type="radio" name="gender" value="f">
+			여자<input type="radio" name="gender" value="f" checked="checked">
 			남자<input type="radio" name="gender" value="d">
 		</p> 
 		<p>발견날짜 : <input type="date" name="getDate"></p> 

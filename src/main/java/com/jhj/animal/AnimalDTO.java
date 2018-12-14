@@ -97,6 +97,9 @@ public class AnimalDTO {
 	}
 
 	public String getFname() {
+		if(fname == null) {
+			fname = "";
+		}
 		return fname;
 	}
 
@@ -105,6 +108,9 @@ public class AnimalDTO {
 	}
 
 	public String getOname() {
+		if(oname == null) {
+			oname = "";
+		}
 		return oname;
 	}
 

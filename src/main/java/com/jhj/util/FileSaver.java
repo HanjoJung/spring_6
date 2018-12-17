@@ -30,7 +30,7 @@ public class FileSaver {
 		return fileSystemName;
 	}
 	
-	//2. OutPutStream 이용
+	//2. FileOutputStream 이용
 	public String saveFile2(String realPath, MultipartFile multipartFile)throws Exception{
 		String fileSystemName="";
 		//1. 저장할 경로명 realPath

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mamoMapper">
+	<select id="totalCount" resultType="java.lang.Integer">
+		select count(num) from memo
+	</select>
+
+	<select id="list" parameterType="Pager" resultType="MemoDTO">
+		select * from
+		(select rownum r, m.* from
+		(select * from memo order by num desc) m )
+		where r between #{startRow} and #{lastRow}
+	</select>
+	
+	<select id="select" parameterType="java.lang.Integer" resultType="MemoDTO">
+		select * from memo where num = #{num}
+	</select>
+
+</mapper>

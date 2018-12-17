@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jhj.file.FileDTO;
 import com.jhj.file.FileService;
 import com.jhj.file.PhotoDTO;
 
@@ -17,6 +18,14 @@ public class FileController {
 
 	@Inject
 	private FileService fileService;
+	
+	@RequestMapping(value = "fileDown")
+	public ModelAndView fileDown(FileDTO fileDTO) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("file", fileDTO);
+		mv.setViewName("fileDown");
+		return mv;
+	}
 
 	@RequestMapping(value = "delete")
 	public ModelAndView delete(int fnum, HttpSession session) throws Exception {

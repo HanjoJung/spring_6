@@ -17,10 +17,17 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
+	<beans:bean class="com.jhj.util.FileDown" id="fileDown"></beans:bean>
+
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"/>
+	</beans:bean>
+	
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="1"/>
 	</beans:bean>
 	
 	<beans:bean class="com.jhj.interceptor.MyInterceptor" id="myInterceptor">
@@ -28,12 +35,17 @@
 	
 	<interceptors>
 	 	<interceptor>
-	 		<mapping path="/*"/>
+	 		<mapping path="/notice/*"/>
+	 		<mapping path="/qna/*"/>
+	 		<exclude-mapping path="/*/*List"/>
+	 		<exclude-mapping path="/*/*Write"/>
+	 		<exclude-mapping path="/*/*Select"/>
 	 		<beans:ref bean="myInterceptor"/>
 	 	</interceptor>
 	</interceptors>
 	
-	<context:component-scan base-package="com.jhj.s6" />
-	<context:component-scan base-package="com.jhj.borad"/>
+	<context:component-scan base-package="com.jhj.s6" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 	
 </beans:beans>

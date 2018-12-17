@@ -60,6 +60,9 @@ public class NoticeController {
 	public ModelAndView write(BoardDTO boardDTO, HttpSession session, List<MultipartFile> f1, RedirectAttributes rd) throws Exception {
 		String realPath = session.getServletContext().getRealPath("resources/upload");
 		System.out.println(realPath);
+		System.out.println(boardDTO.getTitle());
+		System.out.println(boardDTO.getWriter());
+		System.out.println(boardDTO.getContents());
 		
 		ModelAndView mv = noticeService.insert(boardDTO, f1, session);
 		

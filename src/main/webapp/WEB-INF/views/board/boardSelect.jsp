@@ -37,7 +37,7 @@ img {
 		<c:forEach items="${dto.files}" var="file" varStatus="i">
 			<c:if test="${file.fnum ne 0}">
 				<div id="f${i.index}">
-					<a href="../resources/${board}/${file.fname}"><img
+					<a href="../file/fileDown?fname=${file.fname}&oname=${file.oname}"><img
 						alt="${file.oname}" src="../resources/${board}/${file.fname}">
 					</a>
 				</div>

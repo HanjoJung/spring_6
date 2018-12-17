@@ -58,18 +58,28 @@
 		<property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
 
-	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="dataSourceTransactionManager">
+	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
 		<property name="dataSource" ref="dataSource"/>
-	</bean>			
+	</bean>
+
+	<!-- <tx:annotation-driven/> -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>
 	
-	<tx:annotation-driven/>
+	<aop:config>
+		<aop:pointcut expression="execution(* com.jhj..*Service.*(..))" id="roll"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="roll"/>
+	</aop:config>
 	
 	<context:component-scan base-package="com.jhj.notice"/>
 	<context:component-scan base-package="com.jhj.qna"/>
 	<context:component-scan base-package="com.jhj.member"/>
 	<context:component-scan base-package="com.jhj.file"/>
 	<context:component-scan base-package="com.jhj.animal"/>
-	<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	<context:component-scan base-package="com.jhj.trans"/>
 </beans>
 
